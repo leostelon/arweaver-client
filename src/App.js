@@ -1,27 +1,17 @@
 import "./App.css";
-import React, { useEffect } from "react";
-import { createUser, getUser } from "./api/user";
-import { getWalletAddress } from "./utils/wallet";
-import { timeout } from "./utils/timeout";
+import React from "react";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./screens/Home";
 
 function App() {
-	async function signInUser() {
-		await timeout(1);
-		const address = await getWalletAddress();
-		let user = await getUser(address);
-		if (!user) user = await createUser(address);
-	}
-
-	useEffect(() => {
-		signInUser();
-	}, []);
-
 	return (
-		<div className="App">
-			<p>
-				Edit <code>src/App.js</code> and save to reload.
-			</p>
-		</div>
+		<Router>
+			<Routes>
+				<Route path="/" exact element={<Home />} />
+				{/* <Route path="/profile/:user" exact element={<Profile />} /> */}
+			</Routes>
+		</Router>
 	);
 }
 
