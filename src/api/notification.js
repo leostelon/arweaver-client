@@ -1,14 +1,18 @@
 import { default as axios } from "axios";
 import { SERVER_URL } from "../constants";
 import { getLocalUser } from "../utils/getUser";
+import { toast } from "react-toastify";
 
 export const createNotification = async function (address) {
 	try {
+		const user = getLocalUser();
+
 		const response = await axios.post(
-			SERVER_URL + "/user",
+			SERVER_URL + "/notification",
 			{
+				creator_address: user.address,
 				address,
-				email: "nethajimessi10@gmail.com",
+				tx_type: " ",
 			},
 			{
 				headers: {
@@ -17,11 +21,14 @@ export const createNotification = async function (address) {
 			}
 		);
 		if (response.status === 200) {
-			console.log(response.data);
+			toast("Successfully created notification", { type: "success" });
 			return response.data;
 		}
 	} catch (error) {
 		console.log(error.message);
+		if (error.response && error.response.data.message.includes("exists.")) {
+			toast("Notification alert exists for this address.", { type: "info" });
+		}
 	}
 };
 

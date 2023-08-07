@@ -78,8 +78,8 @@ export const Navbar = () => {
 					}}
 					style={{ cursor: "pointer" }}
 				>
-					<h1 style={{ alignItems: "flex-start", display: "flex" }}>
-						⚡Arweaver{" "}
+					<h1 style={{ alignItems: "center", display: "flex" }}>
+						<span style={{ marginBottom: "16px" }}>📨</span>Arweaver{" "}
 					</h1>
 				</div>
 				<div
@@ -90,7 +90,6 @@ export const Navbar = () => {
 					}}
 				>
 					<Box className="navlist">
-						<p onClick={() => window.location.replace("/explore")}>Explore</p>
 						<p
 							onClick={() =>
 								window.open("https://github.com/leostelon/arweaver", "_blank")

@@ -1,0 +1,20 @@
+.add-button {
+	animation: title-move3 2s forwards;
+	margin-top: 16px;
+	border-radius: 4px;
+	background-color: #f45966;
+	color: white;
+	padding: 8px 16px;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+@keyframes title-move3 {
+	from {
+		transform: translate(0px, 0px);
+	}
+	to {
+		transform: translate(0px, -70px);
+	}
+}

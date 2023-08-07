@@ -1,11 +1,13 @@
 import "../styles/app-body.css";
+import "./Home.css";
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { TbSearch } from "react-icons/tb";
+import { MdOutlineMail } from "react-icons/md";
 import { WelcomeScreen } from "./Welcome";
 import { Navbar } from "../components/Navbar";
 import { RiTwitterLine } from "react-icons/ri";
 import { IoMdOpen } from "react-icons/io";
+import { createNotification } from "../api/notification";
 
 export const Home = () => {
 	const [input, setInput] = useState("");
@@ -22,11 +24,11 @@ export const Home = () => {
 		}
 	};
 
-	const onSearch = (event) => {
-		if (input !== "") {
-			window.location.replace(`/explore?query=${input}`);
-		}
-	};
+	async function addNotification() {
+		if (!input || input === "") return;
+		await createNotification(input);
+		setInput("");
+	}
 
 	useEffect(() => {
 		const isWelcome = localStorage.getItem("welcome");
@@ -48,7 +50,7 @@ export const Home = () => {
 								<p className="nft-title">Near instant notification on</p>
 								<p>
 									<span className="nft-title">
-										favourite address on Arweave
+										favourite addresses on Arweave
 									</span>
 								</p>
 							</Box>
@@ -74,21 +76,25 @@ export const Home = () => {
 								}}
 								className="search"
 							>
-								<TbSearch
-									onClick={onSearch}
-									color="grey"
-									cursor={"pointer"}
-									size={18}
-								/>
+								<MdOutlineMail color="grey" cursor={"pointer"} size={18} />
 								<input
 									type="search"
 									id="search"
 									onKeyDown={handleKeyDown}
-									placeholder="Add wallet address..."
+									placeholder="Add wallet address to notify..."
 									value={input}
 									onInput={(e) => setInput(e.target.value)}
-									style={{ border: "none", marginLeft: "12px" }}
+									style={{ border: "none", marginLeft: "12px", width: "100%" }}
 								/>
+							</Box>
+							<Box
+								onClick={addNotification}
+								className="add-button"
+								sx={{
+									fontSize: "14px !important",
+								}}
+							>
+								Notify
 							</Box>
 						</Box>
 						<Box

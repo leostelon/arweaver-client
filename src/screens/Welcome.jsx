@@ -30,7 +30,7 @@ export const WelcomeScreen = ({ onCloseWelcome }) => {
 					{/* <Box className="gradient-container"></Box> */}
 					<Box className="main-title">
 						<p>Near Instant</p>
-						<p>Mail Notification on</p>
+						<p>Mail Notifications on</p>
 						<p>
 							<span className="nft-title">Arweave📨</span>
 						</p>

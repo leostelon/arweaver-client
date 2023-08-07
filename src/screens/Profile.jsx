@@ -15,7 +15,6 @@ import { getShortAddress } from "../utils/addressShort";
 
 export const Profile = () => {
 	const [loading, setLoading] = useState(true);
-	const [name, setName] = useState("");
 	const [token, setToken] = useState("");
 	const [open, setOpen] = useState(false);
 	const [notifications, setNotifications] = useState([]);
@@ -163,7 +162,7 @@ export const Profile = () => {
 												alignItems={"center"}
 												justifyContent={"space-between"}
 											>
-												<h3>{getShortAddress(d.user_address)}</h3>
+												<h3>{getShortAddress(d.address)}</h3>
 												<Box
 													sx={{ cursor: "pointer" }}
 													onClick={async () => {
