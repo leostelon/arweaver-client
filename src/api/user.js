@@ -1,5 +1,6 @@
 import { default as axios } from "axios";
 import { SERVER_URL } from "../constants";
+import { getLocalUser } from "../utils/getUser";
 
 export const createUser = async function (address) {
 	try {
@@ -35,22 +36,21 @@ export const getUser = async function (address) {
 	}
 };
 
-export const updateEmail = async function (username) {
+export const updateEmail = async function (email) {
 	try {
-		let token = localStorage.getItem("token");
-
+		const user = getLocalUser();
 		const response = await axios
 			.post(
-				SERVER_URL + "/user/username",
-				{ username },
+				SERVER_URL + "/user/updateemail",
+				{ address: user.address, email },
 				{
 					headers: {
 						"Content-Type": `application/json`,
-						Authorization: "Bearer " + token,
 					},
 				}
 			)
 			.catch((er) => {
+				console.log(er)
 				alert(er.response.data.message);
 			});
 		if (response.status === 200) {

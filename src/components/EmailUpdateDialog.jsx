@@ -13,11 +13,20 @@ export const EmailUpdateDialog = ({ isOpen }) => {
 
 	async function updateUser(username) {
 		if (!username || username === "") return;
+		if (!validateEmail(username)) return alert("Enter a valid email");
 		setLoading(true);
 		const response = await updateEmail(username);
 		setLoading(false);
-		if (response.data.updatedUsername) window.location.reload();
+		if (response.email) window.location.reload();
 	}
+
+	const validateEmail = (email) => {
+		return String(email)
+			.toLowerCase()
+			.match(
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			);
+	};
 
 	useEffect(() => {
 		if (isOpen) {
@@ -29,12 +38,12 @@ export const EmailUpdateDialog = ({ isOpen }) => {
 		<Dialog open={open} fullWidth maxWidth="xs" onClose={handleClose}>
 			<Box sx={{ p: 2, textAlign: "center", width: "100%" }}>
 				<Box>
-					<h2>Update Name</h2>
+					<h2>Update Email</h2>
 					<br />
 				</Box>
 				<p style={{ fontWeight: "500" }}>
-					Please update your username, it should be unique across the platform.
-					Username's are attached to the docker image.
+					Please update your email, we have not enabled validation. Make sure to
+					enter a valid email id.
 				</p>
 				<Box
 					sx={{
@@ -43,11 +52,11 @@ export const EmailUpdateDialog = ({ isOpen }) => {
 						fontWeight: "600",
 					}}
 				>
-					<p>🚨Username can be updated only once🚨</p>
+					<p>🚨Email can be updated only once🚨</p>
 				</Box>
 				<Box sx={{ mt: 1 }}>
 					<TextField
-						placeholder="Enter username"
+						placeholder="Enter email"
 						size="small"
 						value={username}
 						onChange={(e) => {
@@ -57,7 +66,7 @@ export const EmailUpdateDialog = ({ isOpen }) => {
 				</Box>
 				<Box
 					sx={{
-						mt: 1,
+						mt: 2,
 						width: "100%",
 						display: "flex",
 						justifyContent: "center",

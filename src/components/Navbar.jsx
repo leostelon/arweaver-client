@@ -12,7 +12,7 @@ import { EmailUpdateDialog } from "./EmailUpdateDialog";
 import { timeout } from "../utils/timeout";
 
 export const Navbar = () => {
-	const [updateName, setUpdateName] = useState(false);
+	const [updateEmail, setUpdateEmail] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const navigate = useNavigate();
@@ -31,13 +31,11 @@ export const Navbar = () => {
 		if (address && address !== "") {
 			let user = await getUser(address);
 			if (!user) user = await createUser(address);
-		}
-	}
-
-	async function checkAndUpdateNameDialog(address) {
-		const user = await getUser(address);
-		if (!user.updatedUsername) {
-			setUpdateName(true);
+			localStorage.setItem("user", JSON.stringify(user));
+			setConnectedToSite(true);
+			if (!user.email) {
+				setUpdateEmail(true);
+			}
 		}
 	}
 
@@ -58,7 +56,7 @@ export const Navbar = () => {
 				flexDirection: "column",
 			}}
 		>
-			<EmailUpdateDialog isOpen={updateName} />
+			<EmailUpdateDialog isOpen={updateEmail} />
 			<Box
 				position={"absolute"}
 				right={0}
