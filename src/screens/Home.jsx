@@ -72,7 +72,7 @@ export const Home = () => {
 									display: "flex",
 									alignItems: "center",
 									borderRadius: "28px",
-									border: "0.5px solid grey",
+									border: "0.5px solid #adadad2e",
 								}}
 								className="search"
 							>

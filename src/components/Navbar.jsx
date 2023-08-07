@@ -60,7 +60,6 @@ export const Navbar = () => {
 			<EmailUpdateDialog isOpen={updateEmail} />
 			<Box
 				position={"absolute"}
-				right={0}
 				sx={{
 					backgroundImage: `url('${BgImg}')`,
 					backgroundPosition: "right",
@@ -69,6 +68,8 @@ export const Navbar = () => {
 					height: "100vh",
 					filter: "brightness(2)",
 					zIndex: -1,
+					backgroundPositionY: "top",
+					backgroundPositionX: "right",
 				}}
 			></Box>
 			<div className="navbar">
