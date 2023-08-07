@@ -10,6 +10,7 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { EmailUpdateDialog } from "./EmailUpdateDialog";
 import { timeout } from "../utils/timeout";
+import { getLocalUser } from "../utils/getUser";
 
 export const Navbar = () => {
 	const [updateEmail, setUpdateEmail] = useState(false);
@@ -127,8 +128,8 @@ export const Navbar = () => {
 							>
 								<MenuItem
 									onClick={() => {
-										const address = localStorage.getItem("address");
-										navigate("/profile/" + address);
+										const user = getLocalUser();
+										navigate("/profile/" + user.address);
 										setAnchorEl(null);
 									}}
 								>
