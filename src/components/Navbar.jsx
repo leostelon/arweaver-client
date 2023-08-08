@@ -3,17 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { BsPerson } from "react-icons/bs";
 import BgImg from "../assets/background.png";
-import { getWalletAddress } from "../utils/wallet";
-import { createUser, getUser } from "../api/user";
 import { HiOutlineLogout } from "react-icons/hi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { EmailUpdateDialog } from "./EmailUpdateDialog";
-import { timeout } from "../utils/timeout";
 import { getLocalUser } from "../utils/getUser";
+import { ConnectWalletDialog } from "./ConnectWallet";
+import { Othent } from "arweavekit/auth";
+import { getUser } from "../api/user";
 
 export const Navbar = () => {
 	const [updateEmail, setUpdateEmail] = useState(false);
+	const [connectOpen, setConnectOpen] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const navigate = useNavigate();
@@ -27,13 +28,20 @@ export const Navbar = () => {
 	};
 
 	async function signInUser() {
-		await timeout(1);
-		const address = await getWalletAddress();
-		if (address && address !== "") {
-			let user = await getUser(address);
-			if (!user) user = await createUser(address);
-			localStorage.setItem("user", JSON.stringify(user));
+		let user = JSON.parse(localStorage.getItem("user"));
+		if (!user) return;
+		user = await getUser(user.address);
+		localStorage.setItem("user", JSON.stringify(user));
+		setConnectedToSite(true);
+		if (!user.email) {
+			setUpdateEmail(true);
+		}
+	}
+
+	async function handleConnectWalletClose(user) {
+		if (user) {
 			setConnectedToSite(true);
+			setConnectOpen(false);
 			if (!user.email) {
 				setUpdateEmail(true);
 			}
@@ -58,6 +66,10 @@ export const Navbar = () => {
 			}}
 		>
 			<EmailUpdateDialog isOpen={updateEmail} />
+			<ConnectWalletDialog
+				isOpen={connectOpen}
+				handleExternalClose={handleConnectWalletClose}
+			/>
 			<Box
 				position={"absolute"}
 				sx={{
@@ -100,7 +112,7 @@ export const Navbar = () => {
 						</p>
 					</Box>
 					{!connectedToSite ? (
-						<Box onClick={signInUser} className="upload-button">
+						<Box onClick={() => setConnectOpen(true)} className="upload-button">
 							Connect Wallet
 						</Box>
 					) : (
@@ -144,8 +156,11 @@ export const Navbar = () => {
 									<MdOutlinePersonOutline size={20} />
 								</MenuItem>
 								<MenuItem
-									onClick={() => {
-										localStorage.clear();
+									onClick={async () => {
+										localStorage.removeItem("user");
+										await Othent.logOut({
+											apiId: process.env.REACT_APP_API_ID,
+										});
 										window.location.replace("/");
 										setAnchorEl(null);
 									}}

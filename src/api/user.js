@@ -2,13 +2,13 @@ import { default as axios } from "axios";
 import { SERVER_URL } from "../constants";
 import { getLocalUser } from "../utils/getUser";
 
-export const createUser = async function (address) {
+export const createUser = async function (address, email) {
 	try {
 		const response = await axios.post(
 			SERVER_URL + "/user",
 			{
 				address,
-				email: "nethajimessi10@gmail.com",
+				email,
 			},
 			{
 				headers: {
@@ -50,7 +50,7 @@ export const updateEmail = async function (email) {
 				}
 			)
 			.catch((er) => {
-				console.log(er)
+				console.log(er);
 				alert(er.response.data.message);
 			});
 		if (response.status === 200) {

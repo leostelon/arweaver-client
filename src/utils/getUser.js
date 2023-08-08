@@ -1,3 +1,7 @@
+import { toast } from "react-toastify";
+
 export function getLocalUser() {
-	return JSON.parse(localStorage.getItem("user"));
+	let user = JSON.parse(localStorage.getItem("user"));
+	if (!user) toast("Please connect your wallet", { type: "info" });
+	return user;
 }
