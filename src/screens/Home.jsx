@@ -47,7 +47,7 @@ export const Home = () => {
 					<Box className="app-body">
 						<Box className="body">
 							<Box className="home-main-title">
-								<p className="nft-title">Near instant notification on</p>
+								<p className="nft-title">Near instant notifications on</p>
 								<p>
 									<span className="nft-title">
 										favourite addresses on Arweave
